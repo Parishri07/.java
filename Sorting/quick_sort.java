@@ -1,39 +1,59 @@
-public class quick_sort {
+// we decide a pivot initially as the first element and fix the position of the pivot such that all the elements on the left are lesser than pivot and on the right are greater.
+
+//static is used so that we can call the function without creating object
+
+import java.util.Scanner;
+
+public class quick_sort{
+    static int A[] = new int[10];
+    
+    public static void swap(int a,int b){
+      int tmp = A[a];
+      A[a] = A[b];
+      A[b] = tmp;
+    }
+
+    public static int partition(int l,int h){
+    int pivot = A[l];
+    int i=l+1;
+    int j=h;
+    while(i<=j){
+        do{
+            i++;
+        }while(A[i]<pivot);
+        do{
+            j--;
+        }while(A[j]>pivot);
+        if(i<j)
+         swap(i, j);
+    }
+    swap(l,j);
+    return j;
+    }
+
+    public static void QuickSort(int l,int h){
+       if(l<h){
+        int j = partition(l,h);
+          QuickSort(l,j);
+           QuickSort(j+1,h);
+       }
+    }
 
     public static void main(String[] args) {
-        int[] arr = {10, 7, 8, 9, 1, 5};
-        quickSort(arr, 0, arr.length - 1);
-        System.out.println("Sorted array:");
-        for (int num : arr) {
-            System.out.print(num + " ");
-        }
-    }
 
-    public static void quickSort(int[] arr, int low, int high) {
-        if (low < high) {
-            int partitionIndex = partition(arr, low, high);
-            quickSort(arr, low, partitionIndex - 1);
-            quickSort(arr, partitionIndex + 1, high);
-        }
-    }
+        Scanner sc = new Scanner(System.in);
+       System.out.println("Enter the size of array: ");
+        int n = sc.nextInt();
 
-    public static int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
-                i++;
-                swap(arr, i, j);
-            }
+        System.out.println("Enter the array: ");
+        for(int i=0;i<n;i++){
+            A[i] = sc.nextInt();
         }
-        swap(arr, i + 1, high);
-        return i + 1;
-    }
 
-    public static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+        QuickSort(0,n-1);
+
+        // System.out.println(A.length);
+        for(int k=0;k<n;k++)
+        System.out.print(A[k]+" ");
     }
 }
-
