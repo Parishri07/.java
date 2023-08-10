@@ -1,7 +1,7 @@
 // import java.util.*;
 
 
-//compare each element from start with other elements and compare with the smallest
+//compare each element from start with other elements and exchange with the smallest
 public class selection_sort {
 
     public static int[] selectionSort(int a[]){
