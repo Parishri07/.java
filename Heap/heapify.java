@@ -1,4 +1,4 @@
-package Algorithms;
+package Heap;
 
 import java.util.Scanner;
 
