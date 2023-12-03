@@ -65,6 +65,7 @@ public class heapify {
         heapify hp = new heapify();
         hp.buildMaxHeap(a, n);
        // hp.buildMinHeap(a, n);
+        //we can use both up or down heapify to build max or min heap
 
         System.out.println("Heap after heapify:");
         for (int value : a) {
