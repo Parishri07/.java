@@ -1,52 +1,92 @@
 package Dynamic_Programming;
 
+// Java program to solve fractional Knapsack Problem
+
+package Dynamic_Programming;
+
+import java.lang.*;
 import java.util.Arrays;
 import java.util.Comparator;
 
-class Item {
-    public int weight, profit;
-
-    public Item(int weight, int profit) {
-        this.weight = weight;
-        this.profit = profit;
-    }
-}
-
+// Greedy approach
 public class GreedyKnapsack {
+	
+	// Function to get maximum value
+	private static double getMaxValue(ItemValue[] arr,
+									int capacity)
+	{
+		// Sorting items by profit/weight ratio;
+		Arrays.sort(arr, new Comparator<ItemValue>() {
+			@Override
+			public int compare(ItemValue item1,
+							ItemValue item2)
+			{
+				double cpr1
+					= new Double((double)item1.profit
+								/ (double)item1.weight);
+				double cpr2
+					= new Double((double)item2.profit
+								/ (double)item2.weight);
 
-    public static double knapsack(int capacity, Item[] items) {
-        // Sort items by pi/wi in decreasing order
-        Arrays.sort(items, Comparator.comparingDouble(item -> (double) item.profit / item.weight).reversed());
+				if (cpr1 < cpr2)
+					return 1;
+				else
+					return -1;
+			}
+		});
 
-        int n = items.length;
-        int currentWeight = capacity;
-        double totalProfit = 0.0;
+		double totalValue = 0d;
 
-        for (int i = 0; i < n; i++) {
-            if (currentWeight > 0 && items[i].weight <= currentWeight) {
-                currentWeight -= items[i].weight;
-                totalProfit += items[i].profit;
-            } else {
-                break;
-            }
-        }
+		for (ItemValue i : arr) {
 
-        if (currentWeight > 0) {
-            totalProfit += (double) items[n - 1].profit * (currentWeight / (double) items[n - 1].weight);
-        }
+			int curWt = (int)i.weight;
+			int curVal = (int)i.profit;
 
-        return totalProfit;
-    }
+			if (capacity - curWt >= 0) {
 
-    public static void main(String[] args) {
-        int capacity = 50;
-        Item[] items = {
-            new Item(10, 60),
-            new Item(20, 100),
-            new Item(30, 120)
-        };
+				// This weight can be picked whole
+				capacity = capacity - curWt;
+				totalValue += curVal;
+			}
+			else {
 
-        double maxProfit = knapsack(capacity, items);
-        System.out.println("Maximum Profit: " + maxProfit);
-    }
+				// Item cant be picked whole
+				double fraction
+					= ((double)capacity / (double)curWt);
+				totalValue += (curVal * fraction);
+				capacity
+					= (int)(capacity - (curWt * fraction));
+				break;
+			}
+		}
+
+		return totalValue;
+	}
+
+	static class ItemValue {
+
+		int profit, weight;
+
+		public ItemValue(int val, int wt)
+		{
+			this.weight = wt;
+			this.profit = val;
+		}
+	}
+	public static void main(String[] args)
+	{
+
+		ItemValue[] arr = { new ItemValue(28, 4),
+							new ItemValue(18, 3),
+							new ItemValue(25, 5), 
+							new ItemValue(9, 3), 
+							new ItemValue(2, 1) };
+
+		int capacity = 15;
+
+		double maxValue = getMaxValue(arr, capacity);
+
+		System.out.println(maxValue);
+	}
 }
+
