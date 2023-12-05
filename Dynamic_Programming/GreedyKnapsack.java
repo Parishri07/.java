@@ -1,9 +1,5 @@
 package Dynamic_Programming;
 
-// Java program to solve fractional Knapsack Problem
-
-package Dynamic_Programming;
-
 import java.lang.*;
 import java.util.Arrays;
 import java.util.Comparator;
